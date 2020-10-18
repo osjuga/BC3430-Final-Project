@@ -107,9 +107,30 @@ function playNote(idx) {
     synth.triggerRelease(offset + .5 - .05)
 }
 
+function calculateTransitionSelector() {
+    let transposeChance = parseFloat(
+        document.getElementById("transpose").value
+    )
+    let inversionChance = parseFloat(
+        document.getElementById("inversion").value
+    )
+    let retroChance = parseFloat(document.getElementById("retrograde").value)
+    let normalizingFactor = transposeChance + inversionChance + retroChance
+    transposeChance /= normalizingFactor
+    inversionChance /= normalizingFactor
+    let selector = Math.random();
+    if (selector < transposeChance) {
+        return 1
+    } else if (selector < transposeChance + inversionChance) {
+        return 2
+    } else {
+        return 3
+    }
+}
+
 function genNotes(n) {
     for (let i = 0; i < n; i++) {
-        let rng = Math.floor(Math.random() * 3) + 1
+        let rng = calculateTransitionSelector()
         console.log("\ngenerative run " + i)
 
         if (rng === 1) {
