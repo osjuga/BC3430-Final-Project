@@ -105,13 +105,6 @@ function playNotes() {
     offset += (seq.subdivision * events.length)
 }
 
-// no longer being used but keeping here for now
-function playNote(idx) {
-    offset += .5
-    synth.triggerAttack(group[idx], offset)
-    synth.triggerRelease(offset + .5 - .05)
-}
-
 function calculateTransitionSelector() {
     let transposeChance = parseFloat(
         document.getElementById("transpose").value
