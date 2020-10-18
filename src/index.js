@@ -7,6 +7,7 @@ let group = []
 let set = []
 let offset = 0
 let rhythm = []
+let originalRhythm = []
 
 function transpose(n) {
     for (let i = 0; i < n; i++) {
@@ -23,7 +24,55 @@ function retrograde() {
     set.reverse()
 }
 
-function getRhythm() {
+function retrogradeRhythm() {
+    rhythm.reverse()
+}
+
+function halfTime() {
+    let newRhythm = []
+    for (let beat of rhythm) {
+        newRhythm.push("~")
+        newRhythm.push(beat)
+    }
+    rhythm = newRhythm
+}
+
+function restoreRhythm() {
+    rhythm = originalRhythm
+}
+
+function swapTwoBeats(x, y) {
+    [rhythm[x], rhythm[y]] = [rhythm[y], rhythm[x]]
+}
+
+function genRhythm() {
+    let rng = Math.floor(Math.random() * 4) + 1
+    if (rng === 1) {
+        halfTime()
+        console.log("applied half time ")
+    }
+
+    if (rng === 2) {
+        restoreRhythm()
+        console.log("applied restore rhythm")
+    }
+
+    if (rng === 3) {
+        retrogradeRhythm()
+        console.log("applied retrograde rhythm")
+    }
+
+    if (rng === 4) {
+        let swap1 = Math.floor(Math.random() * rhythm.length)
+        let swap2 = Math.floor(Math.random() * rhythm.length)
+        swapTwoBeats(swap1, swap2)
+        console.log("swap 2 beats: " + swap1 + " and " + swap2)
+    }
+
+    console.log("new rhythm: " + rhythm)
+}
+
+function getEvents() {
     let events = []
     let idx = 0
     for (let beat of rhythm){
@@ -42,7 +91,7 @@ function getRhythm() {
 }
 
 function playNotes() {
-    let events = getRhythm()
+    let events = getEvents()
     const seq = new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note, 0.1, time);
     }, events)
@@ -82,6 +131,8 @@ function genNotes(n) {
         console.log("new set: " + set)
         console.log("new group: " + group)
 
+        genRhythm()
+
         playNotes()
     }
 }
@@ -100,7 +151,7 @@ playButton.addEventListener('click', function() {
     input = input.split(",")
 
     rhythm = document.getElementById('rhythmSet').value
-    rhythm = rhythm.split(" ")
+    originalRhythm = rhythm = rhythm.split(" ")
 
     for (let i = 0; i < input.length; i++) {
         set.push(parseInt(input[i].replace(/\D/g,'')))
