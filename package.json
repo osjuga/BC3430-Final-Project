@@ -2,6 +2,7 @@
   "name": "BC3430-Final-Project",
   "version": "1.0.0",
   "dependencies": {
+    "seedrandom": "^3.0.5",
     "tone": "^14.7.58"
   },
   "devDependencies": {
