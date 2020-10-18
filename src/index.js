@@ -1,13 +1,18 @@
 import * as Tone from 'tone'
-let synth
+import * as seedrandom from 'seedrandom'
 
 // 60 is C4, 72 is C5
 
 let group = []
 let set = []
+
+let synth
+
 let offset = 0
 let rhythm = []
 let originalRhythm = []
+
+let rngGenerator
 
 function transpose(n) {
     for (let i = 0; i < n; i++) {
@@ -46,7 +51,7 @@ function swapTwoBeats(x, y) {
 }
 
 function genRhythm() {
-    let rng = Math.floor(Math.random() * 4) + 1
+    let rng = Math.floor(rngGenerator.quick() * 4) + 1
     if (rng === 1) {
         halfTime()
         console.log("applied half time ")
@@ -63,8 +68,8 @@ function genRhythm() {
     }
 
     if (rng === 4) {
-        let swap1 = Math.floor(Math.random() * rhythm.length)
-        let swap2 = Math.floor(Math.random() * rhythm.length)
+        let swap1 = Math.floor(rngGenerator.quick() * rhythm.length)
+        let swap2 = Math.floor(rngGenerator.quick() * rhythm.length)
         swapTwoBeats(swap1, swap2)
         console.log("swap 2 beats: " + swap1 + " and " + swap2)
     }
@@ -118,7 +123,7 @@ function calculateTransitionSelector() {
     let normalizingFactor = transposeChance + inversionChance + retroChance
     transposeChance /= normalizingFactor
     inversionChance /= normalizingFactor
-    let selector = Math.random();
+    let selector = rngGenerator.quick()
     if (selector < transposeChance) {
         return 1
     } else if (selector < transposeChance + inversionChance) {
@@ -134,7 +139,7 @@ function genNotes(n) {
         console.log("\ngenerative run " + i)
 
         if (rng === 1) {
-            let transposeRng = Math.floor(Math.random() * 11)
+            let transposeRng = Math.floor(rngGenerator.quick() * 11)
             transpose(transposeRng)
             console.log("applied transpose " + transposeRng)
         }
@@ -168,15 +173,18 @@ playButton.addEventListener('click', function() {
     set = []
 
     let input = document.getElementById('pitchClassSet').value
-    let numberOfRuns = parseInt(document.getElementById('numberOfRuns').value)
     input = input.split(",")
-
-    rhythm = document.getElementById('rhythmSet').value
-    originalRhythm = rhythm = rhythm.split(" ")
-
     for (let i = 0; i < input.length; i++) {
         set.push(parseInt(input[i].replace(/\D/g,'')))
     }
+
+    let numberOfRuns = parseInt(document.getElementById('numberOfRuns').value)
+
+    let seed = document.getElementById('rngSeed').value
+    rngGenerator = seedrandom(seed)
+
+    rhythm = document.getElementById('rhythmSet').value
+    originalRhythm = rhythm = rhythm.split(" ")
 
     console.log("\noriginal run")
     console.log("original set: " + set)
