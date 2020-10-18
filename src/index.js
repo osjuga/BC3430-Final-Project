@@ -6,6 +6,7 @@ let synth
 let group = []
 let set = []
 let offset = 0
+let rhythm = []
 
 function transpose(n) {
     for (let i = 0; i < n; i++) {
@@ -22,12 +23,35 @@ function retrograde() {
     set.reverse()
 }
 
-function playNotes() {
-    set.forEach(idx => {
-        playNote(idx);
-    });
+function getRhythm() {
+    let events = []
+    let idx = 0
+    for (let beat of rhythm){
+        let beatEvent = []
+        for (let character of beat) {
+            if (character === '~') {
+                beatEvent.push(null)
+            }
+            else {
+                beatEvent.push(group[set[idx++]])
+            }
+        }
+        events.push(beatEvent)
+    }
+    return events
 }
 
+function playNotes() {
+    let events = getRhythm()
+    const seq = new Tone.Sequence((time, note) => {
+        synth.triggerAttackRelease(note, 0.1, time);
+    }, events)
+    seq.loop = 0
+    seq.start(offset)
+    offset += (seq.subdivision * events.length)
+}
+
+// no longer being used but keeping here for now
 function playNote(idx) {
     offset += .5
     synth.triggerAttack(group[idx], offset)
@@ -75,6 +99,9 @@ playButton.addEventListener('click', function() {
     let numberOfRuns = parseInt(document.getElementById('numberOfRuns').value)
     input = input.split(",")
 
+    rhythm = document.getElementById('rhythmSet').value
+    rhythm = rhythm.split(" ")
+
     for (let i = 0; i < input.length; i++) {
         set.push(parseInt(input[i].replace(/\D/g,'')))
     }
@@ -83,6 +110,7 @@ playButton.addEventListener('click', function() {
     console.log("original set: " + set)
     console.log("original group: " + group)
 
+    Tone.Transport.start();
     playNotes()
     genNotes(numberOfRuns - 1);
 
