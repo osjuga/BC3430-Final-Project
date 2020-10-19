@@ -139,27 +139,35 @@ $(function () {
 
     function genNotes(n) {
         for (let i = 0; i < n; i++) {
-            let rng = calculateTransitionSelector()
+            let times = Math.floor(rngGenerator.quick() * 3)
+            let transitions = []
+            for (let i = 0; i <= times; i++) {
+                transitions.push(calculateTransitionSelector())
+            }
             console.log("\ngenerative run " + i)
+            console.log("\n# of transitions in this step: " + times)
 
-            if (rng === 1) {
-                let transposeRng = Math.floor(rngGenerator.quick() * 23) - 12
-                transpose(transposeRng)
-                console.log("applied transpose " + transposeRng)
+            for (let i = 0; i < transitions.length; i++) {
+                let rng = transitions[i]
+                if (rng === 1) {
+                    let transposeRng = Math.floor(rngGenerator.quick() * 23) - 12
+                    transpose(transposeRng)
+                    console.log("applied transpose " + transposeRng)
+                }
+
+                if (rng === 2) {
+                    inverse()
+                    console.log("applied inversion")
+                }
+
+                if (rng === 3) {
+                    retrograde()
+                    console.log("applied retrograde")
+                }
+
+                console.log("new set: " + set)
+                console.log("new group: " + group)
             }
-
-            if (rng === 2) {
-                inverse()
-                console.log("applied inversion")
-            }
-
-            if (rng === 3) {
-                retrograde()
-                console.log("applied retrograde")
-            }
-
-            console.log("new set: " + set)
-            console.log("new group: " + group)
 
             genRhythm()
 
