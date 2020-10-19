@@ -254,3 +254,8 @@ $(function () {
         console.log("\nFinished.")
     })
 })
+
+$("#stopButton").click(function() {
+    Tone.Transport.cancel()
+})
+
