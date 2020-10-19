@@ -178,7 +178,53 @@ $(function () {
     playButton.click(function() {
         console.log("Starting audio + generation...")
 
-        synth = new Tone.Synth().toDestination()
+        let adsr = {
+            attack: $("#attack").val(),
+            decay: $("#decay").val(),
+            sustain: $("#sustain").val(),
+            release: $("#release").val()
+        }
+
+        console.log(adsr)
+
+        switch ($("#instrument").val()) {
+            case "sine":
+                synth = new Tone.Synth({
+                    oscillator: {
+                        type: 'sine'
+                    },
+                })
+                break
+            case "sawtooth":
+                synth = new Tone.Synth({
+                    oscillator: {
+                        type: 'sawtooth'
+                    },
+                    envelope: adsr
+                })
+                break
+            case "triangle":
+                synth = new Tone.Synth({
+                    oscillator: {
+                        type: 'triangle'
+                    },
+                    envelope: adsr
+                })
+                break
+            case "square":
+                synth = new Tone.Synth({
+                    oscillator: {
+                        type: 'square'
+                    },
+                    envelope: adsr
+                })
+                break
+            default:
+                console.log("WAH")
+        }
+
+        synth = synth.toDestination()
+
         offset = Tone.now()
         group = ["C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4"]
         set = []
