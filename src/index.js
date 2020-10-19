@@ -222,6 +222,7 @@ $(function () {
                     oscillator: {
                         type: 'sine'
                     },
+                    envelope: adsr
                 })
                 break
             case "sawtooth":
@@ -294,9 +295,9 @@ $(function () {
 
         console.log("\nFinished.")
     })
-})
 
-$("#stopButton").click(function() {
-    Tone.Transport.cancel()
+    $("#stopButton").click(function() {
+        Tone.Transport.cancel()
+    })
 })
 
