@@ -14,7 +14,36 @@ $(function () {
 
     let rngGenerator
 
-    const playButton = $("#playButton")
+    function generateDihedralGroup(zero) {
+        let note
+        let octave
+        let zeroIdx
+        let notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
+        if (zero.length === 2) {
+            note = zero.charAt(0)
+            octave = parseInt(zero.charAt(1))
+        }
+        else {
+            note = zero.substring(0, 2)
+            octave = parseInt(zero.charAt(2))
+        }
+
+        zeroIdx = notes.indexOf(note)
+
+        for (let i = 0; i < zeroIdx; i++) {
+            notes.push(notes.shift())
+        }
+
+        for (let i = 0; i < notes.length; i++) {
+            if (i !== 0 && notes[i] === "C") {
+                octave += 1
+            }
+            notes[i] = notes[i] + octave.toString()
+        }
+
+        return notes
+    }
 
     function transpose(n) {
         let minOctave = parseInt($("#minOctave").val())
@@ -175,7 +204,7 @@ $(function () {
         }
     }
 
-    playButton.click(function() {
+    $("#playButton").click(function() {
         console.log("Starting audio + generation...")
         let effect
         let adsr = {
@@ -238,7 +267,7 @@ $(function () {
 
 
         offset = Tone.now()
-        group = ["C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4"]
+        group = generateDihedralGroup($("#zeroOfGroup").val())
         set = []
 
         let input = $("#pitchClassSet").val()
