@@ -17,8 +17,21 @@ $(function () {
     const playButton = $("#playButton")
 
     function transpose(n) {
-        for (let i = 0; i < n; i++) {
-            group.push(group.shift())
+        let minOctave = parseInt($("#minOctave").val())
+        let maxOctave = parseInt($("#maxOctave").val())
+        if (n < 0) {
+            for (let i = 0; i < Math.abs(n); i++) {
+                let value = group.pop()
+                value = value.replace(value.slice(-1), Math.max(parseInt(value.slice(-1)) - 1, minOctave))
+                group.unshift(value)
+            }
+        }
+        else {
+            for (let i = 0; i < n; i++) {
+                let value = group.shift()
+                value = value.replace(value.slice(-1), Math.min(parseInt(value.slice(-1)) + 1, maxOctave))
+                group.push(value)
+            }
         }
     }
 
@@ -130,7 +143,7 @@ $(function () {
             console.log("\ngenerative run " + i)
 
             if (rng === 1) {
-                let transposeRng = Math.floor(rngGenerator.quick() * 11)
+                let transposeRng = Math.floor(rngGenerator.quick() * 23) - 12
                 transpose(transposeRng)
                 console.log("applied transpose " + transposeRng)
             }

@@ -31,12 +31,27 @@
 <br>
 Enter in the probability of each pitch transition function occurring
 <br>
-<label for="transpose">Transpose: </label
-><input type="text" id="transpose" value="0.33"><br>
-<label for="inversion">Inversion: </label
-><input type="text" id="inversion" value="0.33"><br>
-<label for="retrograde">Retrograde: </label
-><input type="text" id="retrograde" value="0.33"><br>
+<label for="transpose">
+    Transpose:
+    <input type="number" id="transpose" value="0.33"><br>
+</label>
+<label for="inversion">
+    Inversion:
+    <input type="number" id="inversion" value="0.33">
+</label>
+<label for="retrograde">
+    Retrograde:
+    <input type="number" id="retrograde" value="0.33">
+</label>
+<br>
+<label for="minOctave">
+    Enter in lower and upper bounds for the octaves you want to use
+    <br>
+    <input type="number" id="minOctave" value="2">
+    <label for="maxOctave">
+        <input type="number" id="maxOctave" value="7">
+    </label>
+</label>
 <script type="module" src="main.js"></script>
 </body>
 </html>
