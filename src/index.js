@@ -177,7 +177,7 @@ $(function () {
 
     playButton.click(function() {
         console.log("Starting audio + generation...")
-
+        let effect
         let adsr = {
             attack: $("#attack").val(),
             decay: $("#decay").val(),
@@ -220,10 +220,22 @@ $(function () {
                 })
                 break
             default:
-                console.log("WAH")
+                console.log("something has gone WRONG")
         }
 
-        synth = synth.toDestination()
+        switch ($("#effect").val()) {
+            case "bitcrush":
+                effect = new Tone.BitCrusher(4).toDestination()
+                synth = synth.connect(effect)
+                break
+            case "pan":
+                effect = new Tone.AutoPanner("4n").toDestination().start()
+                synth = synth.connect(effect)
+                break
+            default:
+                synth.toDestination()
+        }
+
 
         offset = Tone.now()
         group = ["C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4"]
