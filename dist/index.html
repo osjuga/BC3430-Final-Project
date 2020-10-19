@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <meta charset="UTF-8">
     <title>COMS3430 Final Project</title>
 </head>
+
 <body>
 <button type="button" class="btn btn-primary" id="playButton">Play</button>
 <br>
@@ -17,6 +19,36 @@
 <label>
     RNG seed
     <input type="text" id="rngSeed" value="COMS3430">
+</label>
+<br>
+<label for="instrument">Choose instrument</label>
+<select name="instrument" id="instrument">
+    <option value="sine">Sine</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
+    <option value="triangle">Triangle</option>
+</select>
+<br>
+Define ADSR envelope
+<br>
+<label>
+    Attack
+    <input type="number" id="attack" value=".005">
+</label>
+<br>
+<label>
+    Decay
+    <input type="number" id="decay" value=".1">
+</label>
+<br>
+<label>
+    Sustain
+    <input type="number" id="sustain" value=".3">
+</label>
+<br>
+<label>
+    Release
+    <input type="number" id="release" value="1">
 </label>
 <br>
 <label>
@@ -54,4 +86,10 @@ Enter in the probability of each pitch transition function occurring
 </label>
 <script type="module" src="main.js"></script>
 </body>
+
+<style>
+    .hidden-option {
+        visibility: hidden;
+    }
+</style>
 </html>
