@@ -204,9 +204,7 @@ $(function () {
         }
     }
 
-    $("#playButton").click(function() {
-        console.log("Starting audio + generation...")
-        let effect
+    function generateNewSynth() {
         let adsr = {
             attack: $("#attack").val(),
             decay: $("#decay").val(),
@@ -252,6 +250,10 @@ $(function () {
             default:
                 console.log("something has gone WRONG")
         }
+    }
+
+    function selectEffect() {
+        let effect
 
         switch ($("#effect").val()) {
             case "bitcrush":
@@ -265,7 +267,12 @@ $(function () {
             default:
                 synth.toDestination()
         }
+    }
 
+    $("#playButton").click(function() {
+        console.log("Starting audio + generation...")
+        generateNewSynth()
+        selectEffect()
 
         offset = Tone.now()
         group = generateDihedralGroup($("#zeroOfGroup").val())
