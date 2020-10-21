@@ -207,10 +207,10 @@ $(function () {
 
     function selectEnvelopeAndWave() {
         let adsr = {
-            attack: $("#attack").val(),
-            decay: $("#decay").val(),
-            sustain: $("#sustain").val(),
-            release: $("#release").val()
+            attack: parseFloat($("#attack").val()),
+            decay: parseFloat($("#decay").val()),
+            sustain: parseFloat($("#sustain").val()),
+            release: parseFloat($("#release").val())
         }
 
         console.log(adsr)
@@ -261,10 +261,6 @@ $(function () {
         let effect
 
         switch ($("#effect").val()) {
-            case "bitcrush":
-                effect = new Tone.BitCrusher(4).toDestination()
-                synth = synth.connect(effect)
-                break
             case "pan":
                 effect = new Tone.AutoPanner("4n").toDestination().start()
                 synth = synth.connect(effect)
@@ -407,7 +403,6 @@ $(function () {
 
     $("#stopButton").click(function() {
         Tone.Transport.cancel()
-        Tone.Transport.stop()
     })
 
     $("#numberOfSynths").change(function() {
