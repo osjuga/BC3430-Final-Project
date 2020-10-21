@@ -37,6 +37,7 @@ $(function () {
     let originalRhythms
 
     let rngGenerator
+    let globalCompressor
 
     function transpose(n) {
         let minOctave = parseInt($("#minOctave").val())
@@ -262,15 +263,15 @@ $(function () {
 
         switch ($("#effect").val()) {
             case "bitcrush":
-                effect = new Tone.BitCrusher(4).toDestination()
-                synth = synth.connect(effect)
+                effect = new Tone.BitCrusher(4)
+                synth = synth.connect(effect).connect(globalCompressor)
                 break
             case "pan":
-                effect = new Tone.AutoPanner("4n").toDestination().start()
-                synth = synth.connect(effect)
+                effect = new Tone.AutoPanner("4n").start()
+                synth = synth.connect(effect).connect(globalCompressor)
                 break
             default:
-                synth.toDestination()
+                synth.connect(globalCompressor)
         }
     }
 
@@ -364,6 +365,7 @@ $(function () {
 
         let seed = $("#rngSeed").val()
         rngGenerator = seedrandom(seed)
+        globalCompressor = new Tone.Compressor(-20).toDestination()
 
         // reset everything on start
         synths = []
@@ -407,7 +409,6 @@ $(function () {
 
     $("#stopButton").click(function() {
         Tone.Transport.cancel()
-        Tone.Transport.stop()
     })
 
     $("#numberOfSynths").change(function() {
