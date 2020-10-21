@@ -462,6 +462,7 @@ $(function () {
         }
         console.log("original group: " + group)
 
+        Tone.Transport.bpm.value = parseInt($("#bpm").val())
         Tone.Transport.start();
         playNotes()
         genNotes(numberOfRuns - 1);
