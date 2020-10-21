@@ -12,6 +12,26 @@
 <button type="button" class="btn btn-primary" id="playButton">Play</button>
 <button type="button" class="btn btn-danger" id="stopButton">Stop</button>
 <br>
+<label for="groupType">Choose group type</label>
+<select name="groupType" id="groupType">
+    <option value="dihedral">Dihedral Group (chromatic)</option>
+    <option value="major">Major</option>
+    <option value="natural">Natural Minor</option>
+    <option value="harmonic">Harmonic Minor</option>
+    <option value="melodic">Melodic Minor</option>
+</select>
+<br>
+<label for="modeType">Choose a mode (only applied to major group)</label>
+<select name="modeType" id="modeType">
+    <option value="ionian">Ionian</option>
+    <option value="dorian">Dorian</option>
+    <option value="phrygian">Phrygian</option>
+    <option value="lydian">Lydian</option>
+    <option value="mixolydian">Mixolydian</option>
+    <option value="aeolian">Aeolian</option>
+    <option value="locrian">Locrian</option>
+</select>
+<br>
 <label>
     Zero of dihedral group
     <input type="text" id="zeroOfGroup" value="C4"/>
@@ -67,7 +87,7 @@ Define ADSR envelope
 </label>
 <br>
 <label>
-    Pitch class set (comma delimited int, 0-12)
+    Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
     <input type="text" id="pitchClassSet" value="0, 3, 6, 4">
 </label>
 <br>

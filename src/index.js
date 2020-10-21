@@ -2,6 +2,30 @@ import * as Tone from 'tone'
 import * as seedrandom from 'seedrandom'
 
 // 60 is C4, 72 is C5
+
+const TONAL_SCALE_LENGTH = 7
+const MAJOR = [2, 2, 1, 2, 2, 2, 1]
+const NATURAL = [2, 1, 2, 2, 1, 2, 2]
+const HARMONIC = [2, 1, 2, 2, 1, 3, 1]
+const MELODIC = [2, 1, 2, 2, 2, 2, 1]
+
+const keyDict = {
+    major: MAJOR,
+    natural: NATURAL,
+    harmonic: HARMONIC,
+    melodic: MELODIC
+}
+
+const modeDict = {
+    ionian: 0,
+    dorian: 1,
+    phrygian: 2,
+    lydian: 3,
+    mixolydian: 4,
+    aeolian: 5,
+    locrian: 6
+}
+
 $(function () {
     let group = []
     let set = []
@@ -13,37 +37,6 @@ $(function () {
     let originalRhythm = []
 
     let rngGenerator
-
-    function generateDihedralGroup(zero) {
-        let note
-        let octave
-        let zeroIdx
-        let notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-
-        if (zero.length === 2) {
-            note = zero.charAt(0)
-            octave = parseInt(zero.charAt(1))
-        }
-        else {
-            note = zero.substring(0, 2)
-            octave = parseInt(zero.charAt(2))
-        }
-
-        zeroIdx = notes.indexOf(note)
-
-        for (let i = 0; i < zeroIdx; i++) {
-            notes.push(notes.shift())
-        }
-
-        for (let i = 0; i < notes.length; i++) {
-            if (i !== 0 && notes[i] === "C") {
-                octave += 1
-            }
-            notes[i] = notes[i] + octave.toString()
-        }
-
-        return notes
-    }
 
     function transpose(n) {
         let minOctave = parseInt($("#minOctave").val())
@@ -179,7 +172,7 @@ $(function () {
             for (let i = 0; i < transitions.length; i++) {
                 let rng = transitions[i]
                 if (rng === 1) {
-                    let transposeRng = Math.floor(rngGenerator.quick() * 23) - 12
+                    let transposeRng = Math.floor(rngGenerator.quick() * (group.length * 2 - 1)) - group.length
                     transpose(transposeRng)
                     console.log("applied transpose " + transposeRng)
                 }
@@ -269,13 +262,96 @@ $(function () {
         }
     }
 
+    function generateGroup() {
+        const zero = $("#zeroOfGroup").val()
+        let groupType = $("#groupType").val()
+        let note
+        let octave
+
+        if (zero.length === 2) {
+            note = zero.charAt(0)
+            octave = parseInt(zero.charAt(1))
+        }
+        else {
+            note = zero.substring(0, 2)
+            octave = parseInt(zero.charAt(2))
+        }
+
+        if (groupType === "dihedral") {
+            group = generateDihedralGroup(note)
+        }
+        else if (groupType === "major") {
+            let mode = $("#modeType").val()
+            group = generateModalGroup(note, mode)
+        }
+        else {
+            group = generateTonalGroup(note, groupType)
+        }
+
+        applyOctavesToGroup(octave)
+    }
+
+    function generateDihedralGroup(zero) {
+        let noteIdx
+        let notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
+        noteIdx = notes.indexOf(zero)
+
+        for (let i = 0; i < noteIdx; i++) {
+            notes.push(notes.shift())
+        }
+
+        return notes
+    }
+
+    function generateTonalGroup(zero, key) {
+        let baseNotes = generateDihedralGroup(zero)
+        let result = []
+        let idx = 0
+        for (let i = 0; i < TONAL_SCALE_LENGTH; i++) {
+            result.push(baseNotes[idx])
+            idx += keyDict[key][i]
+        }
+
+        return result
+    }
+
+    function generateModalGroup(zero, mode) {
+        let baseNotes = generateDihedralGroup(zero)
+        const shiftCount = modeDict[mode]
+        let modeShift = MAJOR
+        let result = []
+        let idx = 0
+
+        for (let i = 0; i < shiftCount; i++) {
+            modeShift.push(modeShift.shift())
+        }
+
+        for (let i = 0; i < TONAL_SCALE_LENGTH; i++) {
+            result.push(baseNotes[idx])
+            idx += modeShift[i]
+        }
+
+        return result
+
+    }
+
+    function applyOctavesToGroup(octave) {
+        for (let i = 0; i < group.length; i++) {
+            if (i !== 0 && group[i] === "C") {
+                octave += 1
+            }
+            group[i] = group[i] + octave.toString()
+        }
+    }
+
     $("#playButton").click(function() {
         console.log("Starting audio + generation...")
+        offset = Tone.now()
+
         generateNewSynth()
         selectEffect()
-
-        offset = Tone.now()
-        group = generateDihedralGroup($("#zeroOfGroup").val())
+        generateGroup()
         set = []
 
         let input = $("#pitchClassSet").val()
