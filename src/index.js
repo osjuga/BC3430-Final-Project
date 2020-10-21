@@ -281,8 +281,8 @@ $(function () {
 
         switch ($("#effect").val()) {
             case "pan":
-                effect = new Tone.AutoPanner("4n").start()
-                synth = synth.connect(effect).connect(globalCompressor)
+                effect = new Tone.AutoPanner("4n").connect(globalCompressor).start();
+                synth.connect(effect)
                 break
             default:
                 synth.connect(globalCompressor)
