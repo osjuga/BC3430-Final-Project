@@ -28,13 +28,13 @@ const modeDict = {
 
 $(function () {
     let group = []
-    let set = []
+    let sets
 
-    let synth
+    let synths
 
-    let offset = 0
-    let rhythm = []
-    let originalRhythm = []
+    let offsets
+    let rhythms
+    let originalRhythms
 
     let rngGenerator
 
@@ -63,68 +63,72 @@ $(function () {
     }
 
     function retrograde() {
-        set.reverse()
+        for (let i = 0; i < sets.length; i++) {
+            sets[i].reverse()
+        }
     }
 
-    function retrogradeRhythm() {
-        rhythm.reverse()
+    function retrogradeRhythm(i) {
+        rhythms[i].reverse()
     }
 
-    function halfTime() {
+    function halfTime(i) {
         let newRhythm = []
-        for (let beat of rhythm) {
+        for (let beat of rhythms[i]) {
             newRhythm.push("~")
             newRhythm.push(beat)
         }
-        rhythm = newRhythm
+        rhythms[i] = newRhythm
     }
 
-    function restoreRhythm() {
-        rhythm = originalRhythm
+    function restoreRhythm(i) {
+        rhythms[i] = originalRhythms[i]
     }
 
-    function swapTwoBeats(x, y) {
-        [rhythm[x], rhythm[y]] = [rhythm[y], rhythm[x]]
+    function swapTwoBeats(i, x, y) {
+        [rhythms[i][x], rhythms[i][y]] = [rhythms[i][y], rhythms[i][x]]
     }
 
     function genRhythm() {
         let rng = Math.floor(rngGenerator.quick() * 4) + 1
-        if (rng === 1) {
-            halfTime()
-            console.log("applied half time ")
-        }
+        for (let i = 0; i < rhythms.length; i++) {
+            if (rng === 1) {
+                halfTime(i)
+                console.log("applied half time ")
+            }
 
-        if (rng === 2) {
-            restoreRhythm()
-            console.log("applied restore rhythm")
-        }
+            if (rng === 2) {
+                restoreRhythm(i)
+                console.log("applied restore rhythm")
+            }
 
-        if (rng === 3) {
-            retrogradeRhythm()
-            console.log("applied retrograde rhythm")
-        }
+            if (rng === 3) {
+                retrogradeRhythm(i)
+                console.log("applied retrograde rhythm")
+            }
 
-        if (rng === 4) {
-            let swap1 = Math.floor(rngGenerator.quick() * rhythm.length)
-            let swap2 = Math.floor(rngGenerator.quick() * rhythm.length)
-            swapTwoBeats(swap1, swap2)
-            console.log("swap 2 beats: " + swap1 + " and " + swap2)
-        }
+            if (rng === 4) {
+                let swap1 = Math.floor(rngGenerator.quick() * rhythms[i].length)
+                let swap2 = Math.floor(rngGenerator.quick() * rhythms[i].length)
+                swapTwoBeats(i, swap1, swap2)
+                console.log("swap 2 beats: " + swap1 + " and " + swap2)
+            }
 
-        console.log("new rhythm: " + rhythm)
+            console.log("new rhythm " + i + ": " + rhythms[i])
+        }
     }
 
-    function getEvents() {
+    function getEvents(i) {
         let events = []
         let idx = 0
-        for (let beat of rhythm){
+        for (let beat of rhythms[i]){
             let beatEvent = []
             for (let character of beat) {
                 if (character === '~') {
                     beatEvent.push(null)
                 }
                 else {
-                    beatEvent.push(group[set[idx++]])
+                    beatEvent.push(group[sets[i][idx++]])
                 }
             }
             events.push(beatEvent)
@@ -133,13 +137,16 @@ $(function () {
     }
 
     function playNotes() {
-        let events = getEvents()
-        const seq = new Tone.Sequence((time, note) => {
-            synth.triggerAttackRelease(note, 0.1, time);
-        }, events)
-        seq.loop = 0
-        seq.start(offset)
-        offset += (seq.subdivision * events.length)
+        for (let i = 0; i < synths.length; i++) {
+            let events = getEvents(i)
+            const seq = new Tone.Sequence((time, note) => {
+                synths[i].triggerAttackRelease(note, 0.1, time);
+            }, events)
+            seq.loop = 0
+            seq.start(offsets[i])
+            offsets[i] += (seq.subdivision * events.length)
+        }
+
     }
 
     function calculateTransitionSelector() {
@@ -186,8 +193,9 @@ $(function () {
                     retrograde()
                     console.log("applied retrograde")
                 }
-
-                console.log("new set: " + set)
+                for (let i = 0; i < sets.length; i ++) {
+                    console.log("new set " + i + ": " + sets[i])
+                }
                 console.log("new group: " + group)
             }
 
@@ -197,7 +205,7 @@ $(function () {
         }
     }
 
-    function generateNewSynth() {
+    function selectEnvelopeAndWave() {
         let adsr = {
             attack: $("#attack").val(),
             decay: $("#decay").val(),
@@ -206,6 +214,8 @@ $(function () {
         }
 
         console.log(adsr)
+
+        let synth;
 
         switch ($("#instrument").val()) {
             case "sine":
@@ -243,9 +253,11 @@ $(function () {
             default:
                 console.log("something has gone WRONG")
         }
+
+        return synth
     }
 
-    function selectEffect() {
+    function selectEffect(synth) {
         let effect
 
         switch ($("#effect").val()) {
@@ -347,29 +359,43 @@ $(function () {
 
     $("#playButton").click(function() {
         console.log("Starting audio + generation...")
-        offset = Tone.now()
-
-        generateNewSynth()
-        selectEffect()
         generateGroup()
-        set = []
-
-        let input = $("#pitchClassSet").val()
-        input = input.split(",")
-        for (let i = 0; i < input.length; i++) {
-            set.push(parseInt(input[i].replace(/\D/g,'')))
-        }
-
         let numberOfRuns = parseInt($("#numberOfRuns").val())
 
         let seed = $("#rngSeed").val()
         rngGenerator = seedrandom(seed)
 
-        rhythm = $("#rhythmSet").val()
-        originalRhythm = rhythm = rhythm.split(" ")
+        // reset everything on start
+        synths = []
+        rhythms = []
+        originalRhythms = []
+        sets = []
+        offsets = []
+
+        let numberOfSynths = parseInt($("#numberOfSynths").val())
+        for (let i = 0; i < numberOfSynths; i++) {
+            synths.push(selectEnvelopeAndWave())
+            selectEffect(synths[i])
+            offsets.push(Tone.now())
+
+            let set = []
+            let input = $("#pitchClassSet" + i).val()
+            input = input.split(",")
+            for (let i = 0; i < input.length; i++) {
+                set.push(parseInt(input[i].replace(/\D/g,'')))
+            }
+            sets.push(set)
+
+            let rhythm = $("#rhythmSet" + i).val().split(" ")
+            originalRhythms.push(rhythm)
+            rhythms.push(rhythm)
+        }
 
         console.log("\noriginal run")
-        console.log("original set: " + set)
+
+        for (let i = 0; i < sets.length; i ++) {
+            console.log("original set " + i + ": " + sets[i])
+        }
         console.log("original group: " + group)
 
         Tone.Transport.start();
@@ -381,6 +407,22 @@ $(function () {
 
     $("#stopButton").click(function() {
         Tone.Transport.cancel()
+        Tone.Transport.stop()
+    })
+
+    $("#numberOfSynths").change(function() {
+        if (parseInt($(this).val()) > 1) {
+            $("#synth1").show()
+        }
+        else {
+            $("#synth1").hide()
+        }
+        if (parseInt($(this).val()) > 2) {
+            $("#synth2").show()
+        }
+        else {
+            $("#synth2").hide()
+        }
     })
 })
 
