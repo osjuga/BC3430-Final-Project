@@ -146,7 +146,6 @@ $(function () {
                 synths[i].triggerAttackRelease(note, 0.2, time);
                 if (adsrType !== "disabled") {
                     if (synths[i].hasOwnProperty("envelope")) {
-                        console.warn("YEET")
                         synths[i].envelope.attack = generateADSR(synths[i].envelope.attack, adsrType)
                         synths[i].envelope.decay = generateADSR(synths[i].envelope.decay, adsrType)
                         synths[i].envelope.sustain = generateADSR(synths[i].envelope.sustain, adsrType)
