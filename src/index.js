@@ -35,6 +35,7 @@ $(function () {
     let offsets
     let rhythms
     let originalRhythms
+    let adsrGen
 
     let rngGenerator
     let globalCompressor
@@ -139,15 +140,50 @@ $(function () {
 
     function playNotes() {
         for (let i = 0; i < synths.length; i++) {
+            let adsrType = adsrGen[i]
             let events = getEvents(i)
             const seq = new Tone.Sequence((time, note) => {
                 synths[i].triggerAttackRelease(note, 0.2, time);
+                if (adsrType !== "disabled") {
+                    if (synths[i].hasOwnProperty("envelope")) {
+                        console.warn("YEET")
+                        synths[i].envelope.attack = generateADSR(synths[i].envelope.attack, adsrType)
+                        synths[i].envelope.decay = generateADSR(synths[i].envelope.decay, adsrType)
+                        synths[i].envelope.sustain = generateADSR(synths[i].envelope.sustain, adsrType)
+                        synths[i].envelope.release = generateADSR(synths[i].envelope.release, adsrType)
+                    }
+                    else {
+                        synths[i].attack = generateADSR(synths[i].attack, adsrType)
+                        synths[i].release = generateADSR(synths[i].release, adsrType)
+                        console.log(synths[i].attack)
+                        console.log(synths[i].release)
+                    }
+                }
             }, events)
             seq.loop = 0
             seq.start(offsets[i])
             offsets[i] += (seq.subdivision * events.length)
         }
+    }
 
+    function generateADSR(prop, type) {
+        let value
+        if (type === "both") {
+            type = Math.floor(rngGenerator.quick() * 2) === 0 ? "incremental" : "random"
+        }
+        if (type === "incremental") {
+            value = prop + ((rngGenerator.quick() * 2) - 1) * .1
+        }
+        else if (type === "random") {
+            value = (rngGenerator.quick())
+        }
+
+        if (value > 0) {
+            return Math.min(value, 1)
+        }
+        else {
+            return Math.max(value, 0.005)
+        }
     }
 
     function calculateTransitionSelector() {
@@ -379,7 +415,7 @@ $(function () {
     }
 
     function generateAllSynths() {
-        globalCompressor = new Tone.Compressor(-20).toDestination()
+        globalCompressor = new Tone.Compressor(-30).toDestination()
         let numberOfSynths = parseInt($("#numberOfSynths").val())
         for (let i = 0; i < numberOfSynths; i++) {
             synths.push(selectInstrument(i))
@@ -397,6 +433,8 @@ $(function () {
             let rhythm = $("#rhythmSet" + i).val().split(" ")
             originalRhythms.push(rhythm)
             rhythms.push(rhythm)
+
+            adsrGen[i] = $("#adsrGen" + i).val()
         }
     }
 
@@ -408,6 +446,7 @@ $(function () {
         originalRhythms = []
         sets = []
         offsets = []
+        adsrGen = []
 
         generateGroup()
 
