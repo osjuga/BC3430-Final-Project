@@ -42,6 +42,11 @@
     <input type="number" id="numberOfRuns" value="15" min="0" step="1"/>
 </label>
 <br>
+<label>
+    RNG seed
+    <input type="text" id="rngSeed" value="COMS3430">
+</label>
+<br>
 <label for="numberOfSynths">Choose number of synths</label>
 <select name="numberOfSynths" id="numberOfSynths">
     <option value="1">1</option>
@@ -49,13 +54,10 @@
     <option value="3">3</option>
 </select>
 <br>
-<label>
-    RNG seed
-    <input type="text" id="rngSeed" value="COMS3430">
-</label>
+Settings for the first synth
 <br>
-<label for="instrument">Choose instrument</label>
-<select name="instrument" id="instrument">
+<label for="instrument0">Choose instrument</label>
+<select name="instrument0" id="instrument0">
     <option value="sine">Sine</option>
     <option value="square">Square</option>
     <option value="sawtooth">Sawtooth</option>
@@ -65,13 +67,84 @@
     <option value="violin">Violin</option>
 </select>
 <br>
-<label for="effect">Choose effect</label>
-<select name="effect" id="effect">
+<label for="effect0">Choose effect</label>
+<select name="effect0" id="effect0">
     <option value="none">None</option>
     <option value="pan">Pan</option>
 </select>
 <br>
-
+<label>
+    Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+    <input type="text" id="pitchClassSet0" value="0, 3, 6, 4">
+</label>
+<br>
+<label>
+    Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+    <input type="text" id="rhythmSet0" value="x~x x ~ x">
+</label>
+<br>
+<div id="synth1" style="display: none">
+    Settings for the second synth
+    <br>
+    <label>
+        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+        <input type="text" id="pitchClassSet1" value="0, 0">
+    </label>
+    <br>
+    <label>
+        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+        <input type="text" id="rhythmSet1" value="x ~ x ~">
+    </label>
+    <br>
+    <label for="instrument1">Choose instrument</label>
+    <select name="instrument1" id="instrument1">
+        <option value="sine">Sine</option>
+        <option value="square">Square</option>
+        <option value="sawtooth">Sawtooth</option>
+        <option value="triangle">Triangle</option>
+        <option value="flute">Flute</option>
+        <option value="piano">Piano</option>
+        <option value="violin">Violin</option>
+    </select>
+    <br>
+    <label for="effect1">Choose effect</label>
+    <select name="effect1" id="effect1">
+        <option value="none">None</option>
+        <option value="pan">Pan</option>
+    </select>
+    <br>
+</div>
+<div id="synth2" style="display: none">
+    Settings for the third synth
+    <br>
+    <label>
+        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+        <input type="text" id="pitchClassSet2" value="11, 11, 11">
+    </label>
+    <br>
+    <label>
+        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+        <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
+    </label>
+    <br>
+    <label for="instrument2">Choose instrument</label>
+    <select name="instrument2" id="instrument2">
+        <option value="sine">Sine</option>
+        <option value="square">Square</option>
+        <option value="sawtooth">Sawtooth</option>
+        <option value="triangle">Triangle</option>
+        <option value="flute">Flute</option>
+        <option value="piano">Piano</option>
+        <option value="violin">Violin</option>
+    </select>
+    <br>
+    <label for="effect2">Choose effect</label>
+    <select name="effect2" id="effect2">
+        <option value="none">None</option>
+        <option value="pan">Pan</option>
+    </select>
+    <br>
+</div>
 Define ADSR envelope
 <br>
 <label>
@@ -94,40 +167,6 @@ Define ADSR envelope
     <input type="number" id="release" value="1">
 </label>
 <br>
-<label>
-    Pitch class set for the first synth (comma delimited int, 0-11 or 0-6 depending on group type)
-    <input type="text" id="pitchClassSet0" value="0, 3, 6, 4">
-</label>
-<br>
-<label>
-    Rhythm set for the first synth (spaces separate beats. x is a note, tilde is a rest.)
-    <input type="text" id="rhythmSet0" value="x~x x ~ x">
-</label>
-<br>
-<div id="synth1" style="display: none">
-    <label>
-        Pitch class set for the second synth (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet1" value="0, 0">
-    </label>
-    <br>
-    <label>
-        Rhythm set for the second synth (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet1" value="x ~ x ~">
-    </label>
-    <br>
-</div>
-<div id="synth2" style="display: none">
-    <label>
-        Pitch class set for the third synth (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet2" value="11, 11, 11">
-    </label>
-    <br>
-    <label>
-        Rhythm set for the third synth (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
-    </label>
-    <br>
-</div>
 Enter in the probability of each pitch transition function occurring
 <br>
 <label for="transpose">

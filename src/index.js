@@ -206,7 +206,7 @@ $(function () {
         }
     }
 
-    function selectEnvelopeAndWave() {
+    function selectInstrument(i) {
         let adsr = {
             attack: parseFloat($("#attack").val()),
             decay: parseFloat($("#decay").val()),
@@ -218,7 +218,7 @@ $(function () {
 
         let synth;
 
-        switch ($("#instrument").val()) {
+        switch ($("#instrument" + i).val()) {
             case "sine":
                 synth = new Tone.Synth({
                     oscillator: {
@@ -276,16 +276,16 @@ $(function () {
         return synth
     }
 
-    function selectEffect(synth) {
+    function selectEffect(i) {
         let effect
 
-        switch ($("#effect").val()) {
+        switch ($("#effect" + i).val()) {
             case "pan":
                 effect = new Tone.AutoPanner("4n").connect(globalCompressor).start();
-                synth.connect(effect)
+                synths[i].connect(effect)
                 break
             default:
-                synth.connect(globalCompressor)
+                synths[i].connect(globalCompressor)
         }
     }
 
@@ -372,26 +372,12 @@ $(function () {
         }
     }
 
-    $("#playButton").click(function() {
-        console.log("Starting audio + generation...")
-        generateGroup()
-        let numberOfRuns = parseInt($("#numberOfRuns").val())
-
-        let seed = $("#rngSeed").val()
-        rngGenerator = seedrandom(seed)
+    function generateAllSynths() {
         globalCompressor = new Tone.Compressor(-20).toDestination()
-
-        // reset everything on start
-        synths = []
-        rhythms = []
-        originalRhythms = []
-        sets = []
-        offsets = []
-
         let numberOfSynths = parseInt($("#numberOfSynths").val())
         for (let i = 0; i < numberOfSynths; i++) {
-            synths.push(selectEnvelopeAndWave())
-            selectEffect(synths[i])
+            synths.push(selectInstrument(i))
+            selectEffect(i)
             offsets.push(Tone.now())
 
             let set = []
@@ -406,9 +392,27 @@ $(function () {
             originalRhythms.push(rhythm)
             rhythms.push(rhythm)
         }
+    }
+
+    $("#playButton").click(function() {
+        console.log("Starting audio + generation...")
+        // reset everything on start
+        synths = []
+        rhythms = []
+        originalRhythms = []
+        sets = []
+        offsets = []
+
+        generateGroup()
+
+        let numberOfRuns = parseInt($("#numberOfRuns").val())
+
+        let seed = $("#rngSeed").val()
+        rngGenerator = seedrandom(seed)
+
+        generateAllSynths()
 
         console.log("\noriginal run")
-
         for (let i = 0; i < sets.length; i ++) {
             console.log("original set " + i + ": " + sets[i])
         }
