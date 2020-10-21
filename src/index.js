@@ -141,7 +141,7 @@ $(function () {
         for (let i = 0; i < synths.length; i++) {
             let events = getEvents(i)
             const seq = new Tone.Sequence((time, note) => {
-                synths[i].triggerAttackRelease(note, 0.1, time);
+                synths[i].triggerAttackRelease(note, 0.2, time);
             }, events)
             seq.loop = 0
             seq.start(offsets[i])
@@ -249,6 +249,24 @@ $(function () {
                         type: 'square'
                     },
                     envelope: adsr
+                })
+                break
+            case "flute":
+                synth = new Tone.Sampler({
+                    C4: "samples/flute-C4.wav",
+                    C5: "samples/flute-C5.wav",
+                })
+                break
+            case "piano":
+                synth = new Tone.Sampler({
+                    G3: "samples/piano-G3.wav",
+                    G4: "samples/piano-G4.wav",
+                })
+                break
+            case "violin":
+                synth = new Tone.Sampler({
+                    C4: "samples/violin-C4.wav",
+                    C5: "samples/violin-C5.wav",
                 })
                 break
             default:
