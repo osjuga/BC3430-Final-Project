@@ -28,13 +28,13 @@ const modeDict = {
 
 $(function () {
     let group = []
-    let sets = []
+    let sets
 
-    let synths = []
+    let synths
 
-    let offsets = []
-    let rhythms = []
-    let originalRhythms = []
+    let offsets
+    let rhythms
+    let originalRhythms
 
     let rngGenerator
 
@@ -114,7 +114,7 @@ $(function () {
                 console.log("swap 2 beats: " + swap1 + " and " + swap2)
             }
 
-            console.log("new rhythm: " + rhythms[i])
+            console.log("new rhythm " + i + ": " + rhythms[i])
         }
     }
 
@@ -193,8 +193,9 @@ $(function () {
                     retrograde()
                     console.log("applied retrograde")
                 }
-
-                // console.log("new set: " + set)
+                for (let i = 0; i < sets.length; i ++) {
+                    console.log("new set " + i + ": " + sets[i])
+                }
                 console.log("new group: " + group)
             }
 
@@ -365,7 +366,6 @@ $(function () {
         rngGenerator = seedrandom(seed)
 
         // reset everything on start
-        Tone.Transport.seconds = 0
         synths = []
         rhythms = []
         originalRhythms = []
@@ -392,7 +392,10 @@ $(function () {
         }
 
         console.log("\noriginal run")
-        // console.log("original set: " + set)
+
+        for (let i = 0; i < sets.length; i ++) {
+            console.log("original set " + i + ": " + sets[i])
+        }
         console.log("original group: " + group)
 
         Tone.Transport.start();
