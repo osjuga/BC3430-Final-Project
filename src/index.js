@@ -208,10 +208,10 @@ $(function () {
 
     function selectInstrument(i) {
         let adsr = {
-            attack: parseFloat($("#attack").val()),
-            decay: parseFloat($("#decay").val()),
-            sustain: parseFloat($("#sustain").val()),
-            release: parseFloat($("#release").val())
+            attack: parseFloat($("#attack" + i).val()),
+            decay: parseFloat($("#decay" + i).val()),
+            sustain: parseFloat($("#sustain" + i).val()),
+            release: parseFloat($("#release" + i).val())
         }
 
         console.log(adsr)
@@ -256,18 +256,24 @@ $(function () {
                     C4: "samples/flute-C4.wav",
                     C5: "samples/flute-C5.wav",
                 })
+                synth.attack = adsr.attack
+                synth.release = adsr.release
                 break
             case "piano":
                 synth = new Tone.Sampler({
                     G3: "samples/piano-G3.wav",
                     G4: "samples/piano-G4.wav",
                 })
+                synth.attack = adsr.attack
+                synth.release = adsr.release
                 break
             case "violin":
                 synth = new Tone.Sampler({
                     C4: "samples/violin-C4.wav",
                     C5: "samples/violin-C5.wav",
                 })
+                synth.attack = adsr.attack
+                synth.release = adsr.release
                 break
             default:
                 console.log("something has gone WRONG")

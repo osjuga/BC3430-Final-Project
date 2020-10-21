@@ -47,6 +47,30 @@
     <input type="text" id="rngSeed" value="COMS3430">
 </label>
 <br>
+Enter in the probability of each pitch transition function occurring
+<br>
+<label for="transpose">
+    Transpose:
+    <input type="number" id="transpose" value="0.33"><br>
+</label>
+<label for="inversion">
+    Inversion:
+    <input type="number" id="inversion" value="0.33">
+</label>
+<label for="retrograde">
+    Retrograde:
+    <input type="number" id="retrograde" value="0.33">
+</label>
+<br>
+<label for="minOctave">
+    Enter in lower and upper bounds for the octaves you want to use
+    <br>
+    <input type="number" id="minOctave" value="2">
+    <label for="maxOctave">
+        <input type="number" id="maxOctave" value="7">
+    </label>
+</label>
+<br>
 <label for="numberOfSynths">Choose number of synths</label>
 <select name="numberOfSynths" id="numberOfSynths">
     <option value="1">1</option>
@@ -83,18 +107,30 @@ Settings for the first synth
     <input type="text" id="rhythmSet0" value="x~x x ~ x">
 </label>
 <br>
+Define ADSR envelope
+<br>
+<label>
+    Attack
+    <input type="number" id="attack0" value=".005">
+</label>
+<br>
+<label>
+    Decay
+    <input type="number" id="decay0" value=".1">
+</label>
+<br>
+<label>
+    Sustain
+    <input type="number" id="sustain0" value=".3">
+</label>
+<br>
+<label>
+    Release
+    <input type="number" id="release0" value="1">
+</label>
+<br>
 <div id="synth1" style="display: none">
     Settings for the second synth
-    <br>
-    <label>
-        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet1" value="0, 0">
-    </label>
-    <br>
-    <label>
-        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet1" value="x ~ x ~">
-    </label>
     <br>
     <label for="instrument1">Choose instrument</label>
     <select name="instrument1" id="instrument1">
@@ -113,19 +149,41 @@ Settings for the first synth
         <option value="pan">Pan</option>
     </select>
     <br>
-</div>
-<div id="synth2" style="display: none">
-    Settings for the third synth
-    <br>
     <label>
         Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet2" value="11, 11, 11">
+        <input type="text" id="pitchClassSet1" value="0, 0">
     </label>
     <br>
     <label>
         Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
+        <input type="text" id="rhythmSet1" value="x ~ x ~">
     </label>
+    <br>
+    Define ADSR envelope
+    <br>
+    <label>
+        Attack
+        <input type="number" id="attack1" value=".005">
+    </label>
+    <br>
+    <label>
+        Decay
+        <input type="number" id="decay1" value=".1">
+    </label>
+    <br>
+    <label>
+        Sustain
+        <input type="number" id="sustain1" value=".3">
+    </label>
+    <br>
+    <label>
+        Release
+        <input type="number" id="release1" value="1">
+    </label>
+    <br>
+</div>
+<div id="synth2" style="display: none">
+    Settings for the third synth
     <br>
     <label for="instrument2">Choose instrument</label>
     <select name="instrument2" id="instrument2">
@@ -144,52 +202,39 @@ Settings for the first synth
         <option value="pan">Pan</option>
     </select>
     <br>
-</div>
-Define ADSR envelope
-<br>
-<label>
-    Attack
-    <input type="number" id="attack" value=".005">
-</label>
-<br>
-<label>
-    Decay
-    <input type="number" id="decay" value=".1">
-</label>
-<br>
-<label>
-    Sustain
-    <input type="number" id="sustain" value=".3">
-</label>
-<br>
-<label>
-    Release
-    <input type="number" id="release" value="1">
-</label>
-<br>
-Enter in the probability of each pitch transition function occurring
-<br>
-<label for="transpose">
-    Transpose:
-    <input type="number" id="transpose" value="0.33"><br>
-</label>
-<label for="inversion">
-    Inversion:
-    <input type="number" id="inversion" value="0.33">
-</label>
-<label for="retrograde">
-    Retrograde:
-    <input type="number" id="retrograde" value="0.33">
-</label>
-<br>
-<label for="minOctave">
-    Enter in lower and upper bounds for the octaves you want to use
-    <br>
-    <input type="number" id="minOctave" value="2">
-    <label for="maxOctave">
-        <input type="number" id="maxOctave" value="7">
+    <label>
+        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+        <input type="text" id="pitchClassSet2" value="11, 11, 11">
     </label>
-</label>
+    <br>
+    <label>
+        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+        <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
+    </label>
+    <br>
+    Define ADSR envelope
+    <br>
+    <label>
+        Attack
+        <input type="number" id="attack2" value=".005">
+    </label>
+    <br>
+    <label>
+        Decay
+        <input type="number" id="decay2" value=".1">
+    </label>
+    <br>
+    <label>
+        Sustain
+        <input type="number" id="sustain2" value=".3">
+    </label>
+    <br>
+    <label>
+        Release
+        <input type="number" id="release2" value="1">
+    </label>
+    <br>
+</div>
 <script type="module" src="main.js"></script>
 </body>
 
