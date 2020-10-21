@@ -251,6 +251,24 @@ $(function () {
                     envelope: adsr
                 })
                 break
+            case "flute":
+                synth = new Tone.Sampler({
+                    C4: "samples/flute-C4.wav",
+                    C5: "samples/flute-C5.wav",
+                })
+                break
+            case "piano":
+                synth = new Tone.Sampler({
+                    G3: "samples/piano-G3.wav",
+                    G4: "samples/piano-G4.wav",
+                })
+                break
+            case "violin":
+                synth = new Tone.Sampler({
+                    C4: "samples/violin-C4.wav",
+                    C5: "samples/violin-C5.wav",
+                })
+                break
             default:
                 console.log("something has gone WRONG")
         }
