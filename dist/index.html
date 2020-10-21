@@ -129,6 +129,13 @@ Define ADSR envelope
     <input type="number" id="release0" value="1">
 </label>
 <br>
+<label for="adsrGen0">Enable/Disable Generative ADSR</label>
+<select name="adsrGen0" id="adsrGen0">
+    <option value="disabled">Disabled</option>
+    <option value="incremental">Incrementally Random</option>
+    <option value="random">Completely Random</option>
+    <option value="both">Both of the above</option>
+</select>
 <div id="synth1" style="display: none">
     Settings for the second synth
     <br>
@@ -181,6 +188,13 @@ Define ADSR envelope
         <input type="number" id="release1" value="1">
     </label>
     <br>
+    <label for="adsrGen1">Enable/Disable Generative ADSR</label>
+    <select name="adsrGen1" id="adsrGen1">
+        <option value="disabled">Disabled</option>
+        <option value="incremental">Incrementally Random</option>
+        <option value="random">Completely Random</option>
+        <option value="both">Both of the above</option>
+    </select>
 </div>
 <div id="synth2" style="display: none">
     Settings for the third synth
@@ -234,6 +248,13 @@ Define ADSR envelope
         <input type="number" id="release2" value="1">
     </label>
     <br>
+    <label for="adsrGen2">Enable/Disable Generative ADSR</label>
+    <select name="adsrGen2" id="adsrGen2">
+        <option value="disabled">Disabled</option>
+        <option value="incremental">Incrementally Random</option>
+        <option value="random">Completely Random</option>
+        <option value="both">Both of the above</option>
+    </select>
 </div>
 <script type="module" src="main.js"></script>
 </body>
