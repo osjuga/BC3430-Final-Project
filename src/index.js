@@ -141,7 +141,7 @@ $(function () {
         for (let i = 0; i < synths.length; i++) {
             let events = getEvents(i)
             const seq = new Tone.Sequence((time, note) => {
-                synths[i].triggerAttackRelease(note, 0.1, time);
+                synths[i].triggerAttackRelease(note, 0.2, time);
             }, events)
             seq.loop = 0
             seq.start(offsets[i])
