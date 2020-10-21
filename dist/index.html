@@ -11,6 +11,7 @@
 <body>
 <button type="button" class="btn btn-primary" id="playButton">Play</button>
 <button type="button" class="btn btn-danger" id="stopButton">Stop</button>
+<button type="button" class="btn btn-danger" id="testButton">Stop</button>
 <br>
 <label>
     Zero of dihedral group
@@ -20,6 +21,11 @@
 <label>
     Number of runs
     <input type="number" id="numberOfRuns" value="15" min="0" step="1"/>
+</label>
+<br>
+<label>
+    Number of synths
+    <input type="number" id="numberOfSynths" value="2" min="0" step="1"/>
 </label>
 <br>
 <label>
@@ -68,12 +74,12 @@ Define ADSR envelope
 <br>
 <label>
     Pitch class set (comma delimited int, 0-12)
-    <input type="text" id="pitchClassSet" value="0, 3, 6, 4">
+    <input type="text" id="pitchClassSet0" value="0, 3, 6, 4">
 </label>
 <br>
 <label>
     Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-    <input type="text" id="rhythmSet" value="x~x x ~ x">
+    <input type="text" id="rhythmSet0" value="x~x x ~ x">
 </label>
 <br>
 Enter in the probability of each pitch transition function occurring
@@ -98,6 +104,16 @@ Enter in the probability of each pitch transition function occurring
     <label for="maxOctave">
         <input type="number" id="maxOctave" value="7">
     </label>
+</label>
+<br>
+<label>
+    Pitch class set (comma delimited int, 0-12)
+    <input type="text" id="pitchClassSet1" value="0, 0, 0, 0">
+</label>
+<br>
+<label>
+    Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+    <input type="text" id="rhythmSet1" value="x x x x">
 </label>
 <script type="module" src="main.js"></script>
 </body>
