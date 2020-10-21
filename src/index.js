@@ -364,6 +364,14 @@ $(function () {
         let seed = $("#rngSeed").val()
         rngGenerator = seedrandom(seed)
 
+        // reset everything on start
+        Tone.Transport.seconds = 0
+        synths = []
+        rhythms = []
+        originalRhythms = []
+        sets = []
+        offsets = []
+
         let numberOfSynths = parseInt($("#numberOfSynths").val())
         for (let i = 0; i < numberOfSynths; i++) {
             synths.push(selectEnvelopeAndWave())
@@ -396,6 +404,22 @@ $(function () {
 
     $("#stopButton").click(function() {
         Tone.Transport.cancel()
+        Tone.Transport.stop()
+    })
+
+    $("#numberOfSynths").change(function() {
+        if (parseInt($(this).val()) > 1) {
+            $("#synth1").show()
+        }
+        else {
+            $("#synth1").hide()
+        }
+        if (parseInt($(this).val()) > 2) {
+            $("#synth2").show()
+        }
+        else {
+            $("#synth2").hide()
+        }
     })
 })
 
