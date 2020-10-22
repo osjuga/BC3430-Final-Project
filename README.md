@@ -60,19 +60,25 @@ Like the pitches, the rhythms also go through a transformation function with eve
 
 The rhythm set then has to be parsed into actual rhythmic patterns for the notes to be played at. The parsing function translates the xs and ~s into “events” that can be passed into a Tone sequencer. By creating these events with the proper array subdivisions for beats, the Tone sequencer can play each note with the correct duration. The program also keeps track of an offset that makes sure the sequencer starts playing notes at the correct times (sequentially and not overlapping)
 
-### ADSR Generation
-
-<Oscar>
-
 ### Pitch Group Selection
 
-<Oscar?>
+The user is able to pick between chromatic, diatonic, and popular melodic variant scales. After parsing the given zero pitch (default C4), the scale is constructed. The default and base for the other scales is the chromatic dihedral group, which is just an array representation of a chromatic scale starting from the given zero. 
+
+Building upon this, we can also create a tonal group (i.e., major and the minor variants). After creating a dihedral-12 group, we can select specific notes based on the intervals we expect from each scale (e.g., for a major scale, the interval spacing is 2, 2, 1, 2, 2, 2, 1). 
+
+Also building upon the dihedral-12 group base, if you want a modal scale (e.g., Dorian), we take the intervals expected for a major scale then shift according to the mode we want, then apply it to the dihedral-12 group (e.g., Dorian would result in shift of 1 of the major scale intervals, so 2, 2, 1, 2, 2, 2, 1 would become 2, 1, 2, 2, 2, 1, 2).
+
+Notes:
+* To generate a modal scale, the user needs to select the major scale, then choose a mode from the list.
+* We make no distinction between the Aeolian mode and natural minor scale, both will construct the same thing, just in different ways. Yay, music theory. 
 
 ### Instrumentation & Polyphony
 
 The user is allowed to pick from a dropdown menu of several instruments. The first four are just some standard oscillator types (sine, sawtooth, etc.). However, there are also sample-based instruments: flute, violin, and piano. Each of these instruments is made up of just two audio files corresponding to a specific pitch for them. For instance, for the flute, there is a C4 file and a C5 file. However, you can still get all the notes as if they were played by this flute. By using these files as starting points, they can be modified to interpolate what a G4 would sound like. It doesn’t always sound the greatest, but it is interesting to hear!
 
 You can also select up to 3 instruments to play at a single time. They can all be given their own pitch set, rhythm set, ADSR envelope, audio effect, and base instrument sound. We decided that they should all undergo the same transition functions at the same time to at least give them some unifying factor. Start them all up at once and hear a symphony! I really swear if you put them on a mix of piano and violin, you can write Schoenberg pieces. One thing to note is that the audio generation can be slow and take a while to start up. This problem is worsened by using the sampled instruments, the effects, and more than 1 instrument. We decided to limit it to 3 instruments at a time so that the program didn’t get too bogged down in computation. 
+
+### ADSR Generation
 
 ### Audio Effects
  
