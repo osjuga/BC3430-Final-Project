@@ -19,7 +19,8 @@ Generally building upon our Lab 5 implementations of pitch set theory to continu
 generally solve the issue if persistent. 
 * See logs for general notes on what is happening. ADSR not logged.
 * If you see errors, double check to see whether the initial pitch class set is out of bounds or not; typically due to
-pitch classes >6 when set to a tonal group.
+pitch classes >6 when set to a tonal group
+* Sampler synths (i.e., violin, piano, and flute presets) do not work with frequency split.  
 
 ### "Blog Post"
 
