@@ -247,8 +247,6 @@ $(function () {
             release: parseFloat($("#release" + i).val())
         }
 
-        console.log(adsr)
-
         let synth;
 
         switch ($("#instrument" + i).val()) {
