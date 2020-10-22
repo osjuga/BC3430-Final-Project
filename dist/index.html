@@ -2,271 +2,303 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <meta charset="UTF-8">
     <title>COMS3430 Final Project</title>
 </head>
 
 <body>
-<button type="button" class="btn btn-primary" id="playButton">Play</button>
-<button type="button" class="btn btn-danger" id="stopButton">Stop</button>
-<br>
-<label for="groupType">Choose group type</label>
-<select name="groupType" id="groupType">
-    <option value="dihedral">Dihedral Group (chromatic)</option>
-    <option value="major">Major</option>
-    <option value="natural">Natural Minor</option>
-    <option value="harmonic">Harmonic Minor</option>
-    <option value="melodic">Melodic Minor</option>
-</select>
-<br>
-<label for="modeType">Choose a mode (only applied to major group)</label>
-<select name="modeType" id="modeType">
-    <option value="ionian">Ionian</option>
-    <option value="dorian">Dorian</option>
-    <option value="phrygian">Phrygian</option>
-    <option value="lydian">Lydian</option>
-    <option value="mixolydian">Mixolydian</option>
-    <option value="aeolian">Aeolian</option>
-    <option value="locrian">Locrian</option>
-</select>
-<br>
-<label>
-    Zero of dihedral group
-    <input type="text" id="zeroOfGroup" value="C4"/>
-</label>
-<br>
-<label>
-    BPM
-    <input type="number" id="bpm" value="120" min="1" step="1"/>
-</label>
-<br>
-<label>
-    Number of runs
-    <input type="number" id="numberOfRuns" value="15" min="0" step="1"/>
-</label>
-<br>
-<label>
-    RNG seed
-    <input type="text" id="rngSeed" value="COMS3430">
-</label>
-<br>
-Enter in the probability of each pitch transition function occurring
-<br>
-<label for="transpose">
-    Transpose:
-    <input type="number" id="transpose" value="0.33"><br>
-</label>
-<label for="inversion">
-    Inversion:
-    <input type="number" id="inversion" value="0.33">
-</label>
-<label for="retrograde">
-    Retrograde:
-    <input type="number" id="retrograde" value="0.33">
-</label>
-<br>
-<label for="minOctave">
-    Enter in lower and upper bounds for the octaves you want to use
+<div class="container">
     <br>
-    <input type="number" id="minOctave" value="2">
-    <label for="maxOctave">
-        <input type="number" id="maxOctave" value="7">
-    </label>
-</label>
-<br>
-<label for="numberOfSynths">Choose number of synths</label>
-<select name="numberOfSynths" id="numberOfSynths">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-</select>
-<br>
-Settings for the first synth
-<br>
-<label for="instrument0">Choose instrument</label>
-<select name="instrument0" id="instrument0">
-    <option value="sine">Sine</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-    <option value="triangle">Triangle</option>
-    <option value="flute">Flute</option>
-    <option value="piano">Piano</option>
-    <option value="violin">Violin</option>
-</select>
-<br>
-<label for="effect0">Choose effect</label>
-<select name="effect0" id="effect0">
-    <option value="none">None</option>
-    <option value="pan">Pan</option>
-</select>
-<br>
-<label>
-    Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
-    <input type="text" id="pitchClassSet0" value="0, 3, 6, 4">
-</label>
-<br>
-<label>
-    Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-    <input type="text" id="rhythmSet0" value="x~x x ~ x">
-</label>
-<br>
-Define ADSR envelope
-<br>
-<label>
-    Attack
-    <input type="number" id="attack0" value=".005">
-</label>
-<br>
-<label>
-    Decay
-    <input type="number" id="decay0" value=".1">
-</label>
-<br>
-<label>
-    Sustain
-    <input type="number" id="sustain0" value=".3">
-</label>
-<br>
-<label>
-    Release
-    <input type="number" id="release0" value="1">
-</label>
-<br>
-<label for="adsrGen0">Enable/Disable Generative ADSR</label>
-<select name="adsrGen0" id="adsrGen0">
-    <option value="disabled">Disabled</option>
-    <option value="incremental">Incrementally Random</option>
-    <option value="random">Completely Random</option>
-    <option value="both">Both of the above</option>
-</select>
-<div id="synth1" style="display: none">
-    Settings for the second synth
+    <div class="row">
+        <div class="col-6">
+        <button type="button" class="btn btn-primary btn-block" id="playButton">Play</button>
+        </div>
+        <div class="col-6">
+        <button type="button" class="btn btn-danger btn-block" id="stopButton">Stop</button>
+        </div>
+    </div>
     <br>
-    <label for="instrument1">Choose instrument</label>
-    <select name="instrument1" id="instrument1">
-        <option value="sine">Sine</option>
-        <option value="square">Square</option>
-        <option value="sawtooth">Sawtooth</option>
-        <option value="triangle">Triangle</option>
-        <option value="flute">Flute</option>
-        <option value="piano">Piano</option>
-        <option value="violin">Violin</option>
-    </select>
-    <br>
-    <label for="effect1">Choose effect</label>
-    <select name="effect1" id="effect1">
-        <option value="none">None</option>
-        <option value="pan">Pan</option>
-    </select>
-    <br>
-    <label>
-        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet1" value="0, 0">
-    </label>
-    <br>
-    <label>
-        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet1" value="x ~ x ~">
-    </label>
-    <br>
-    Define ADSR envelope
-    <br>
-    <label>
-        Attack
-        <input type="number" id="attack1" value=".005">
-    </label>
-    <br>
-    <label>
-        Decay
-        <input type="number" id="decay1" value=".1">
-    </label>
-    <br>
-    <label>
-        Sustain
-        <input type="number" id="sustain1" value=".3">
-    </label>
-    <br>
-    <label>
-        Release
-        <input type="number" id="release1" value="1">
-    </label>
-    <br>
-    <label for="adsrGen1">Enable/Disable Generative ADSR</label>
-    <select name="adsrGen1" id="adsrGen1">
-        <option value="disabled">Disabled</option>
-        <option value="incremental">Incrementally Random</option>
-        <option value="random">Completely Random</option>
-        <option value="both">Both of the above</option>
-    </select>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron fix-size">
+                <label for="groupType">Choose group type</label>
+                <select name="groupType" id="groupType">
+                    <option value="dihedral">Dihedral Group (chromatic)</option>
+                    <option value="major">Major</option>
+                    <option value="natural">Natural Minor</option>
+                    <option value="harmonic">Harmonic Minor</option>
+                    <option value="melodic">Melodic Minor</option>
+                </select>
+                <br>
+                <label for="modeType">Choose a mode (only applied to major group)</label>
+                <select name="modeType" id="modeType">
+                    <option value="ionian">Ionian</option>
+                    <option value="dorian">Dorian</option>
+                    <option value="phrygian">Phrygian</option>
+                    <option value="lydian">Lydian</option>
+                    <option value="mixolydian">Mixolydian</option>
+                    <option value="aeolian">Aeolian</option>
+                    <option value="locrian">Locrian</option>
+                </select>
+                <br>
+                <label>
+                    Zero of dihedral group
+                    <input type="text" id="zeroOfGroup" value="C4"/>
+                </label>
+                <br>
+                <label>
+                    BPM
+                    <input type="number" id="bpm" value="120" min="1" step="1"/>
+                </label>
+                <br>
+                <label>
+                    Number of runs
+                    <input type="number" id="numberOfRuns" value="15" min="0" step="1"/>
+                </label>
+                <br>
+                <label>
+                    RNG seed
+                    <input type="text" id="rngSeed" value="COMS3430">
+                </label>
+                <br>
+                Enter in the probability of each pitch transition function occurring
+                <br>
+                <label for="transpose">
+                    Transpose:
+                    <input type="number" id="transpose" value="0.33"><br>
+                </label>
+                <label for="inversion">
+                    Inversion:
+                    <input type="number" id="inversion" value="0.33">
+                </label>
+                <label for="retrograde">
+                    Retrograde:
+                    <input type="number" id="retrograde" value="0.33">
+                </label>
+                <br>
+                <label for="minOctave">
+                    Enter in lower and upper bounds for the octaves you want to use
+                    <br>
+                    <input type="number" id="minOctave" value="2">
+                    <label for="maxOctave">
+                        <input type="number" id="maxOctave" value="7">
+                    </label>
+                </label>
+                <br>
+                <label for="numberOfSynths">Choose number of synths</label>
+                <select name="numberOfSynths" id="numberOfSynths">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron fix-size">
+                Settings for the first synth
+                <br>
+                <label for="instrument0">Choose instrument</label>
+                <select name="instrument0" id="instrument0">
+                    <option value="sine">Sine</option>
+                    <option value="square">Square</option>
+                    <option value="sawtooth">Sawtooth</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="flute">Flute</option>
+                    <option value="piano">Piano</option>
+                    <option value="violin">Violin</option>
+                </select>
+                <br>
+                <label for="effect0">Choose effect</label>
+                <select name="effect0" id="effect0">
+                    <option value="none">None</option>
+                    <option value="pan">Pan</option>
+                </select>
+                <br>
+                <label>
+                    Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+                    <input type="text" id="pitchClassSet0" value="0, 3, 6, 4">
+                </label>
+                <br>
+                <label>
+                    Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+                    <input type="text" id="rhythmSet0" value="x~x x ~ x">
+                </label>
+                <br>
+                Define ADSR envelope
+                <br>
+                <label>
+                    Attack
+                    <input type="number" id="attack0" value=".005">
+                </label>
+                <br>
+                <label>
+                    Decay
+                    <input type="number" id="decay0" value=".1">
+                </label>
+                <br>
+                <label>
+                    Sustain
+                    <input type="number" id="sustain0" value=".3">
+                </label>
+                <br>
+                <label>
+                    Release
+                    <input type="number" id="release0" value="1">
+                </label>
+                <br>
+                <label for="adsrGen0">Enable/Disable Generative ADSR</label>
+                <select name="adsrGen0" id="adsrGen0">
+                    <option value="disabled">Disabled</option>
+                    <option value="incremental">Incrementally Random</option>
+                    <option value="random">Completely Random</option>
+                    <option value="both">Both of the above</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+        <div id="synth1" style="display: none" class="jumbotron fix-size">
+            Settings for the second synth
+            <br>
+            <label for="instrument1">Choose instrument</label>
+            <select name="instrument1" id="instrument1">
+                <option value="sine">Sine</option>
+                <option value="square">Square</option>
+                <option value="sawtooth">Sawtooth</option>
+                <option value="triangle">Triangle</option>
+                <option value="flute">Flute</option>
+                <option value="piano">Piano</option>
+                <option value="violin">Violin</option>
+            </select>
+            <br>
+            <label for="effect1">Choose effect</label>
+            <select name="effect1" id="effect1">
+                <option value="none">None</option>
+                <option value="pan">Pan</option>
+            </select>
+            <br>
+            <label>
+                Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+                <input type="text" id="pitchClassSet1" value="0, 0">
+            </label>
+            <br>
+            <label>
+                Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+                <input type="text" id="rhythmSet1" value="x ~ x ~">
+            </label>
+            <br>
+            Define ADSR envelope
+            <br>
+            <label>
+                Attack
+                <input type="number" id="attack1" value=".005">
+            </label>
+            <br>
+            <label>
+                Decay
+                <input type="number" id="decay1" value=".1">
+            </label>
+            <br>
+            <label>
+                Sustain
+                <input type="number" id="sustain1" value=".3">
+            </label>
+            <br>
+            <label>
+                Release
+                <input type="number" id="release1" value="1">
+            </label>
+            <br>
+            <label for="adsrGen1">Enable/Disable Generative ADSR</label>
+            <select name="adsrGen1" id="adsrGen1">
+                <option value="disabled">Disabled</option>
+                <option value="incremental">Incrementally Random</option>
+                <option value="random">Completely Random</option>
+                <option value="both">Both of the above</option>
+            </select>
+        </div>
+        </div>
+        <div class="col-6">
+        <div id="synth2" style="display: none" class="jumbotron fix-size">
+            Settings for the third synth
+            <br>
+            <label for="instrument2">Choose instrument</label>
+            <select name="instrument2" id="instrument2">
+                <option value="sine">Sine</option>
+                <option value="square">Square</option>
+                <option value="sawtooth">Sawtooth</option>
+                <option value="triangle">Triangle</option>
+                <option value="flute">Flute</option>
+                <option value="piano">Piano</option>
+                <option value="violin">Violin</option>
+            </select>
+            <br>
+            <label for="effect2">Choose effect</label>
+            <select name="effect2" id="effect2">
+                <option value="none">None</option>
+                <option value="pan">Pan</option>
+            </select>
+            <br>
+            <label>
+                Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
+                <input type="text" id="pitchClassSet2" value="11, 11, 11">
+            </label>
+            <br>
+            <label>
+                Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
+                <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
+            </label>
+            <br>
+            Define ADSR envelope
+            <br>
+            <label>
+                Attack
+                <input type="number" id="attack2" value=".005">
+            </label>
+            <br>
+            <label>
+                Decay
+                <input type="number" id="decay2" value=".1">
+            </label>
+            <br>
+            <label>
+                Sustain
+                <input type="number" id="sustain2" value=".3">
+            </label>
+            <br>
+            <label>
+                Release
+                <input type="number" id="release2" value="1">
+            </label>
+            <br>
+            <label for="adsrGen2">Enable/Disable Generative ADSR</label>
+            <select name="adsrGen2" id="adsrGen2">
+                <option value="disabled">Disabled</option>
+                <option value="incremental">Incrementally Random</option>
+                <option value="random">Completely Random</option>
+                <option value="both">Both of the above</option>
+            </select>
+        </div>
+    </div>
+    </div>
 </div>
-<div id="synth2" style="display: none">
-    Settings for the third synth
-    <br>
-    <label for="instrument2">Choose instrument</label>
-    <select name="instrument2" id="instrument2">
-        <option value="sine">Sine</option>
-        <option value="square">Square</option>
-        <option value="sawtooth">Sawtooth</option>
-        <option value="triangle">Triangle</option>
-        <option value="flute">Flute</option>
-        <option value="piano">Piano</option>
-        <option value="violin">Violin</option>
-    </select>
-    <br>
-    <label for="effect2">Choose effect</label>
-    <select name="effect2" id="effect2">
-        <option value="none">None</option>
-        <option value="pan">Pan</option>
-    </select>
-    <br>
-    <label>
-        Pitch class set (comma delimited int, 0-11 or 0-6 depending on group type)
-        <input type="text" id="pitchClassSet2" value="11, 11, 11">
-    </label>
-    <br>
-    <label>
-        Rhythm set (spaces separate beats. x is a note, tilde is a rest.)
-        <input type="text" id="rhythmSet2" value="~ ~ xxx ~">
-    </label>
-    <br>
-    Define ADSR envelope
-    <br>
-    <label>
-        Attack
-        <input type="number" id="attack2" value=".005">
-    </label>
-    <br>
-    <label>
-        Decay
-        <input type="number" id="decay2" value=".1">
-    </label>
-    <br>
-    <label>
-        Sustain
-        <input type="number" id="sustain2" value=".3">
-    </label>
-    <br>
-    <label>
-        Release
-        <input type="number" id="release2" value="1">
-    </label>
-    <br>
-    <label for="adsrGen2">Enable/Disable Generative ADSR</label>
-    <select name="adsrGen2" id="adsrGen2">
-        <option value="disabled">Disabled</option>
-        <option value="incremental">Incrementally Random</option>
-        <option value="random">Completely Random</option>
-        <option value="both">Both of the above</option>
-    </select>
-</div>
+
 <script type="module" src="main.js"></script>
 </body>
 
 <style>
     .hidden-option {
         visibility: hidden;
+    }
+
+    .fix-size {
+        height: 564px;
+        padding-top: 32px;
+        padding-bottom: 32px;
     }
 </style>
 </html>
