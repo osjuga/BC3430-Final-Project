@@ -78,5 +78,7 @@ You can also select up to 3 instruments to play at a single time. They can all b
  
 Finally, there are three audio effects that can be applied to each instrument. The first is an LFO-based panner. The instrument will oscillate back and forth between your left and right ears with the frequency of the LFO. The second is a variable lowpass filter. There is a lowpass filter at 440hz, blocking frequencies higher than that. However, attached to the frequency is an LFO that makes the frequency cutoff change constantly. This makes every note warble, coming in and out of focus. The last effect is the frequency splitter. Based on the frequency of the played note, the note will come out of a different speaker: lower notes in the left ear and higher notes in the right ear. These were all made by combining different features/effects in Tone to make our own effects that aren’t available by default.
 
+### Final Thoughts
 
+In the end, thought what created might not always sound good _per se_, it's always exciting to use and see what weird thing you can create next. We did achieve the major goal when making this project: creating a fun, easy-to-use autocomposer. There are a still few future features that would be nice to tackle, with the most worthwhile being creating some visualization of the generation instead of just printing all of it to the console, but we were able to nail down so many other features that we wanted that it we are quite happy with it.
 
