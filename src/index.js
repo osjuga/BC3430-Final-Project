@@ -330,11 +330,16 @@ $(function () {
                 synths[i].connect(effect)
                 break
             case "splitter":
-                let merger = new Tone.Merge().connect(globalCompressor)
-                effect = new Tone.MultibandSplit(300, 600)
-                synths[i].connect(effect)
-                effect.low.connect(merger, 0, 0)
-                effect.high.connect(merger, 0, 1)
+                if (synths[i].hasOwnProperty("envelope")) {
+                    let merger = new Tone.Merge().connect(globalCompressor)
+                    effect = new Tone.MultibandSplit(300, 600)
+                    synths[i].connect(effect)
+                    effect.low.connect(merger, 0, 0)
+                    effect.high.connect(merger, 0, 1)
+                }
+                else {
+                    synths[i].connect(globalCompressor)
+                }
                 break
             default:
                 synths[i].connect(globalCompressor)
