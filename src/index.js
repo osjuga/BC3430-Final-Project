@@ -325,6 +325,12 @@ $(function () {
                 effect = new Tone.AutoPanner("4n").connect(globalCompressor).start();
                 synths[i].connect(effect)
                 break
+            case "variable-lowpass":
+                effect = new Tone.Filter(440, "lowpass", -24).connect(globalCompressor)
+                let lfo = new Tone.LFO(3, 1, 1000).start()
+                lfo.connect(effect.frequency)
+                synths[i].connect(effect)
+                break
             default:
                 synths[i].connect(globalCompressor)
         }
