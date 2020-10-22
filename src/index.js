@@ -154,8 +154,6 @@ $(function () {
                     else {
                         synths[i].attack = generateADSR(synths[i].attack, adsrType)
                         synths[i].release = generateADSR(synths[i].release, adsrType)
-                        console.log(synths[i].attack)
-                        console.log(synths[i].release)
                     }
                 }
             }, events)
