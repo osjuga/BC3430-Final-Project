@@ -44,19 +44,19 @@ A number of features were implemented to allow users to create a variety of comp
 * Three fun effects to apply to your instrument
 * Seed-based random generation to remember your favorite compositions for later
 
-This was created in Tone.js, a framework for Web Audio that offers some additional features for more complex creations. In this post, I w
+This was created in Tone.js, a framework for Web Audio that offers some additional features for more complex creations.
 
 ### Pitch Generation
 
 Pitch generation is at the heart of serialism. The user inputs a pitch class set and then transformations are applied to make this pitch set point to different notes. The three primary transformations are transpose (moving all pitches up or down by some constant), retrograde (reversing the order of the notes), and inversion (flipping the intervals between the notes in the group). Initially, a 0 in the pitch set could correspond to C4, but after a +1 transposition it would be C#4. The values in the pitch set are not actually changing, but the notes they correspond to are being adjusted. This is done by shuffling the values around in the dihedral group that is initially generated and using the numbers in the pitch set as indices that access the group.
 
-In addition to a single transition function happening, there is a random chance of a composition of them happening as well. Users can also input the probability of each transition occurring and give an upper and lower bound to what octaves they want the transposition function to reach to.
+In addition to a single transition function happening, there is a random chance of several of them being applied at once as well. Users can also input the probability of each transition occurring and give an upper and lower bound to what octaves they want the transposition function to reach to.
 
 ### Rhythm Generation
 
-Though inspired by the pitch generation, rhythm generation ends up taking a different form. Again, the user will input some starting set. The notation is inspired by the Tidal live coding language. Users will type in an x to represent when a note should be played, and a ~ to represent a rest. Spaces are used to separate different beats in a measure. Writing “x ~ x ~” would make a note play on the first and third beat of a measure. If there isn’t a space between the notes, they would subdivide the beat they’re in. “xxx x xx” would represent an eighth note triplet, a quarter note, and then two eighth notes. 
+Though inspired by the pitch generation, rhythm generation ends up taking a different form, further inspired by the Tidal live coding language. Again, the user will input some starting set. Users will type in an x to represent when a note should be played, and a ~ to represent a rest. Spaces are used to separate different beats in a measure. Writing “x ~ x ~” would make a note play on the first and third beat of a measure. If there isn’t a space between the notes, they would subdivide the beat they’re in. “xxx x xx” would represent an eighth note triplet, a quarter note, and then two eighth notes. 
 
-Like for the pitches, the rhythms also go through a transformation function with every iteration. The functions implemented are retrograde, swap beats, half time, and restore. Retrograde reverses the order of the beats. Swap beats flips the positions of two random beats. Half time adds a rest between each beat. Restore changes the rhythm back to the original beat inputted. This isn’t necessarily a direct correspondence with pitch set theory, but instead just a way we thought would be interesting to generate different rhythms.
+Like the pitches, the rhythms also go through a transformation function with every iteration. The functions implemented are retrograde, swap beats, half time, and restore. Retrograde reverses the order of the beats. Swap beats flips the positions of two random beats. Half time adds a rest between each beat. Restore changes the rhythm back to the original beat inputted. This isn’t necessarily a direct correspondence with pitch set theory, but instead just a way we thought would be interesting to generate different rhythms.
 
 The rhythm set then has to be parsed into actual rhythmic patterns for the notes to be played at. The parsing function translates the xs and ~s into “events” that can be passed into a Tone sequencer. By creating these events with the proper array subdivisions for beats, the Tone sequencer can play each note with the correct duration. The program also keeps track of an offset that makes sure the sequencer starts playing notes at the correct times (sequentially and not overlapping)
 
@@ -80,5 +80,5 @@ Finally, there are three audio effects that can be applied to each instrument. T
 
 ### Final Thoughts
 
-In the end, thought what created might not always sound good _per se_, it's always exciting to use and see what weird thing you can create next. We did achieve the major goal when making this project: creating a fun, easy-to-use autocomposer. There are a still few future features that would be nice to tackle, with the most worthwhile being creating some visualization of the generation instead of just printing all of it to the console, but we were able to nail down so many other features that we wanted that it we are quite happy with it.
+In the end, though what gets created might not always sound good _per se_, it's always exciting to use and see what weird thing you can create next. We did achieve the major goal when making this project: creating a fun, easy-to-use autocomposer. There are a still few future features that would be nice to tackle, with the most worthwhile being creating some visualization of the generation instead of just printing all of it to the console, but we were able to nail down so many other features that we wanted that we are quite happy with the current result.
 
