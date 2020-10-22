@@ -319,15 +319,24 @@ $(function () {
         let effect
 
         switch ($("#effect" + i).val()) {
-            case "pan":
-                effect = new Tone.AutoPanner("4n").connect(globalCompressor).start();
-                synths[i].connect(effect)
-                break
             case "variable-lowpass":
                 effect = new Tone.Filter(440, "lowpass", -24).connect(globalCompressor)
                 let lfo = new Tone.LFO(3, 1, 1000).start()
                 lfo.connect(effect.frequency)
                 synths[i].connect(effect)
+                break
+            case "pan":
+                effect = new Tone.Panner().connect(globalCompressor)
+                let lfo2 = new Tone.LFO(2, -1, 1).start()
+                lfo2.connect(effect.pan)
+                synths[i].connect(effect)
+                break
+            case "splitter":
+                let merger = new Tone.Merge().connect(globalCompressor)
+                effect = new Tone.MultibandSplit(300, 600)
+                synths[i].connect(effect)
+                effect.low.connect(merger, 0, 0)
+                effect.high.connect(merger, 0, 1)
                 break
             default:
                 synths[i].connect(globalCompressor)
