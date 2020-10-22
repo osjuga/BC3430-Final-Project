@@ -8,7 +8,7 @@ Generally building upon our Lab 5 implementations of pitch set theory to continu
 ### Build instructions
 
 1. `npm install` to pull dependencies from npm
-2. `npx webpack` to build main.js in /dist
+2. `npx webpack` to build `/dist/main.js`
 3. Open `/dist/index.html` in Chrome
 
 ### Notes
