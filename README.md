@@ -80,6 +80,11 @@ You can also select up to 3 instruments to play at a single time. They can all b
 
 ### ADSR Generation
 
+For ADSR generation, the user can select between 4 different settings: disabled, incrementally random, completely random, and both. For incrementally random, the ADSR values are incremented/decremented by a 32-bit random float in [0, 1) multiplited by .1. For completely random, the ADSR values are randomly set to something in [0, 1). For both, there's a 50% chance of either of the above methodologies being applied. These changes are applied for every note.
+
+Note that for sampled instruments (i.e., the piano, violin, flute), only the attack and release can be modified. For the oscillator based instruments, all of the values can be changed. 
+
+
 ### Audio Effects
  
 Finally, there are three audio effects that can be applied to each instrument. The first is an LFO-based panner. The instrument will oscillate back and forth between your left and right ears with the frequency of the LFO. The second is a variable lowpass filter. There is a lowpass filter at 440hz, blocking frequencies higher than that. However, attached to the frequency is an LFO that makes the frequency cutoff change constantly. This makes every note warble, coming in and out of focus. The last effect is the frequency splitter. Based on the frequency of the played note, the note will come out of a different speaker: lower notes in the left ear and higher notes in the right ear. These were all made by combining different features/effects in Tone to make our own effects that aren’t available by default.
