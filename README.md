@@ -28,7 +28,7 @@ With this project, we aimed to create a robust auto-composer based on the idea o
 
 ### Background
 
-We began with the idea of Schoenberg’s 12-tone serialism. By starting with a set of pitches, one can then perform a series of transformations to generate new, but related pitches. Already this allows someone to come up with interesting melodies that (while still unified by spawning from the some pitch set) are quite unexpected. Later composers applied this same idea of generation to other aspects of music other than pitch: rhythm, loudness, and even instrumentation. Through the power of JavaScript, we followed in the footsteps of these 20th century composers to approach total serialism.
+We began with the idea of Schoenberg’s 12-tone serialism. By starting with a set of pitches, one can then perform a series of transformations to generate new, but related pitches. Already this allows someone to come up with interesting melodies that (while still unified by spawning from the same pitch set) are quite unexpected. Later composers applied this same idea of generation to other aspects of music other than pitch: rhythm, loudness, and even instrumentation. Through the power of JavaScript, we followed in the footsteps of these 20th century composers to approach total serialism.
 
 ### Primary Features
 
@@ -56,9 +56,9 @@ In addition to a single transition function happening, there is a random chance 
 
 Though inspired by the pitch generation, rhythm generation ends up taking a different form, further inspired by the Tidal live coding language. Again, the user will input some starting set. Users will type in an x to represent when a note should be played, and a ~ to represent a rest. Spaces are used to separate different beats in a measure. Writing “x ~ x ~” would make a note play on the first and third beat of a measure. If there isn’t a space between the notes, they would subdivide the beat they’re in. “xxx x xx” would represent an eighth note triplet, a quarter note, and then two eighth notes. 
 
-Like the pitches, the rhythms also go through a transformation function with every iteration. The functions implemented are retrograde, swap beats, half time, and restore. Retrograde reverses the order of the beats. Swap beats flips the positions of two random beats. Half time adds a rest between each beat. Restore changes the rhythm back to the original beat inputted. This isn’t necessarily a direct correspondence with pitch set theory, but instead just a way we thought would be interesting to generate different rhythms.
+Like the pitches, the rhythms also go through a transformation function with every iteration. The functions implemented are retrograde, swap beats, half time, and restore. Retrograde reverses the order of the beats. Swap beats flips the positions of two random beats. Half time adds a rest between each beat. Restore changes the rhythm back to the original rhythm inputted. This isn’t necessarily a direct correspondence with pitch set theory, but instead just a way we thought would be interesting to generate different rhythms.
 
-The rhythm set then has to be parsed into actual rhythmic patterns for the notes to be played at. The parsing function translates the xs and ~s into “events” that can be passed into a Tone sequencer. By creating these events with the proper array subdivisions for beats, the Tone sequencer can play each note with the correct duration. The program also keeps track of an offset that makes sure the sequencer starts playing notes at the correct times (sequentially and not overlapping)
+The rhythm set then has to be parsed into actual rhythmic patterns for the notes to be played at. The parsing function translates the xs and ~s into “events” that can be passed into a Tone sequencer. By creating these events with the proper array subdivisions for beats, the Tone sequencer can play each note with the correct duration. The program also keeps track of an offset that makes sure the sequencer starts playing notes at the correct times (sequentially and not overlapping).
 
 ### Pitch Group Selection
 
